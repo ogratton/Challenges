@@ -4,40 +4,60 @@ import Control.Monad
 
 -- TO RUN: 	simply type 'main' in an interactive session
 
+--- PART 1 ---
 
--- example input
--- 		ixccb-hjj-uhvhdufk-725[hcjub]
+-- split the main body from the checksum and ID
+partsSplit s = splitAt ((length s)-10) s
 
+-- remove all instances of c in a string
+removeAll [] c = []
+removeAll (x:xs) c = if (c==x) then removeAll xs c else x : removeAll xs c
+
+-- sort the freq table
+sortFreq :: Ord n => [(x,n)] -> [(x,n)]
+sortFreq [] = []
+sortFreq ((x,n):xns) = sortFreq smallerSorted ++ [(x,n)] ++ sortFreq largerSorted
+	where
+	smallerSorted = [(a,m) | (a,m) <- xns, m > n]
+	largerSorted = [(a,m) | (a,m) <- xns, m <= n]
+	
 -- make a freq table of a sentence
-freq input = toList $ fromListWith (+) [(c, 1) | c <- input]
+freq input = sortFreq $ toList $ fromListWith (+) [(c, 1) | c <- input]
 
--- check the checksum is in decreasing order of frequency
-check id table [] = id
-check id table (x:[]) = id
-check id table (x:y:xys) = if (Just (Prelude.lookup x table) >= Just(Prelude.lookup y table)) then check id table (y:xys) else 0
+-- generate true checksum (5 long)
+checksum n ((c,_):table) = if n > 0 then c : (checksum (n-1) table) else []
 
--- take everything inbetween square brackets
-bracket [] = []
-bracket ('[':xs) = before ']' xs
-bracket (x:xs) = bracket xs
-
--- take everything in a list before first occurrence of var b
-before b [] = []
-before b (x:xs) = if x==b then [] else x: before ']' xs
-
-getID = take 3 . reverse . take 10 . reverse
-
+-- read string as Integer
 strToInt s = read s :: Integer
 
-eval string = check (strToInt $ getID string) (freq (before ']' string)) (bracket string)
+-- parse input into a triple with helper functions
+eval' string = let (l,c) = partsSplit string in (checksum 5 $ freq $ removeAll l '-',strToInt $ take 3 c, take 5 $ drop 4 c)
 
+-- check if the checksum matches the one we generate
+eval string = let (myChecksum,id,checksum) = eval' string in if myChecksum==checksum then id else 0
 
--- all IO stuff below here
+--- PART 2 ---
+
+-- rotate characters around the alphabet Caesar-Cipher-style
+rotate :: Integer -> Char -> Char
+rotate 0 c = c
+rotate n c
+    | c == '-' = ' '
+    | c == 'z' = rotate (n-1) 'a'
+    | otherwise= rotate (n-1) (succ c)
+
+-- rotate a string n times
+decrypt' n = Prelude.map (rotate (mod n 26))
+
+decrypt :: String -> String
+decrypt string = if (eval string > 0) then let (l, c) = partsSplit string in decrypt' (strToInt $ take 3 c) l else ""
+
+-- IO stuff below
 
 evalAll [] agg = agg
 evalAll (x:xs) agg = evalAll xs (agg+eval x)
 
-loadData file = do  
+part1 file = do  
     handle <- openFile file ReadMode  
     contents <- hGetContents handle  
     let ls = lines contents
@@ -45,5 +65,9 @@ loadData file = do
 	putStr "\n"
     hClose handle
 	
-main2 = loadData "input.txt"
+--main = part1 "input.txt"
+
+main = forever $ do   
+    l <- getLine  
+    putStrLn $ decrypt l 
 
