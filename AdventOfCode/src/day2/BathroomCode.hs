@@ -1,3 +1,10 @@
+-- To run:
+-- cat input.txt | ./b1 
+-- (or b2 for part 2)
+-- (in cmd or powershell use 'more' instead of 'cat')
+
+main = interact part1
+
 f '1' 'R' = '2'
 f '1' 'D' = '4'
 f '2' 'R' = '3'

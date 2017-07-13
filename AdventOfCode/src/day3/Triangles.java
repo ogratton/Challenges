@@ -31,7 +31,7 @@ public class Triangles
 
 	public static void main(String[] args) throws IOException
 	{
-		ArrayList<String> data = read("inputs/day3.txt");
+		ArrayList<String> data = read("src/day3/input.txt");
 
 		int total = 0;
 		for (String string : data)

@@ -88,7 +88,7 @@ public class Steps
 	
 	public static void main(String[] args)
 	{
-		Steps s = new Steps("inputs/day1.txt");
+		Steps s = new Steps("src/day1/input.txt");
 		System.out.println(s.solve());
 	}
 }
