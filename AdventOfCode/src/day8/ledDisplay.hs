@@ -1,6 +1,6 @@
 import System.IO
 
--- NOTE: use this in bash, not cmd/powershell
+-- NOTE: only seems to work on linux, not windows
 -- Based on Graham Hutton's Game of Life code
 
 -- Screen Utilities
@@ -89,5 +89,5 @@ perform file = do
     contents <- hGetContents handle  
     let ls = lines contents
     showcells $ executeAll ls [];
-	putStr "\n"
+	putStr "\n\n\n\n\n\n"
     hClose handle
