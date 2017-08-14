@@ -1,4 +1,4 @@
-package day2;
+package day02;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -100,7 +100,7 @@ public class BathroomCode
 //		int[] co = bc.doOneRow(new int[]{2,1}, "UUUUD");
 //		System.out.println(bc.lookup(co));
 
-		bc.solve("src/day2/input.txt");
+		bc.solve("src/day02/input.txt");
 
 	}
 

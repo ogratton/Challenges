@@ -1,4 +1,4 @@
-package day8;
+package day08;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class ledDisplay {
     public static void main(String[] args) throws FileNotFoundException{
-        Scanner sc = new Scanner(new File("src/day8/input.txt"));
+        Scanner sc = new Scanner(new File("src/day08/input.txt"));
         Pattern rect = Pattern.compile("rect (\\d+)x(\\d+)");
         Pattern rotRow = Pattern.compile("rotate row y=(\\d+) by (\\d+)");
         Pattern rotCol = Pattern.compile("rotate column x=(\\d+) by (\\d+)");

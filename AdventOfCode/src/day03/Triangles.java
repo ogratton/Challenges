@@ -1,4 +1,4 @@
-package day3;
+package day03;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -31,7 +31,7 @@ public class Triangles
 
 	public static void main(String[] args) throws IOException
 	{
-		ArrayList<String> data = read("src/day3/input.txt");
+		ArrayList<String> data = read("src/day03/input.txt");
 
 		int total = 0;
 		for (String string : data)

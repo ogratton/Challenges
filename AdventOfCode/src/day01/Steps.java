@@ -1,4 +1,4 @@
-package day1;
+package day01;
 
 import java.util.ArrayList;
 
@@ -88,7 +88,7 @@ public class Steps
 	
 	public static void main(String[] args)
 	{
-		Steps s = new Steps("src/day1/input.txt");
+		Steps s = new Steps("src/day01/input.txt");
 		System.out.println(s.solve());
 	}
 }

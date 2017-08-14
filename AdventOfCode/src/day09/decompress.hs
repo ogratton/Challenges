@@ -21,9 +21,9 @@ parse com = map strToInt (splitBy 'x' com)
 -- PART 2
 decompLength :: String -> Int
 decompLength [] = 0
-decompLength ('(':xs) =  let (com,rest) = span (/=')') xs
-                            [freq,amount] = parse com
-                            (h,t) = splitAt freq (tail rest) in
+decompLength ('(':xs) =  let (com,rest) = span (/=')') xs in
+                         let [freq,amount] = parse com in
+                         let (h,t) = splitAt freq (tail rest) in
                         (amount * (decompLength h)) + (decompLength t)
 decompLength (_:xs) = 1 + (decompLength xs)
 
