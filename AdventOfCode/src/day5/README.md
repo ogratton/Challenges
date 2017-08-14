@@ -1,4 +1,6 @@
---- Day 5: How About a Nice Game of Chess? ---
+# --- Day 5: How About a Nice Game of Chess? ---
+
+### --- Part One ---
 
 You are faced with a security door designed by Easter Bunny engineers that seem to have acquired most of their security knowledge by watching hacking movies.
 
@@ -16,7 +18,7 @@ In this example, after continuing this search a total of eight times, the passwo
 
 Given the actual Door ID, what is the password?
 
---- Part Two ---
+### --- Part Two ---
 
 As the door slides open, you are presented with a second door that uses a slightly more inspired security mechanism. Clearly unimpressed by the last version (in what movie is the password decrypted in order?!), the Easter Bunny engineers have worked out a better solution.
 
