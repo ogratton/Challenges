@@ -1,0 +1,6 @@
+food 5 goes to drone 2
+drone 2 gives low to drone 1 and high to drone 0
+food 3 goes to drone 1
+drone 1 gives low to pupa 1 and high to drone 0
+drone 0 gives low to pupa 2 and high to pupa 0
+food 2 goes to drone 2
