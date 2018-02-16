@@ -19,3 +19,7 @@ A series of challenges for functional programming covering:
 * Logic and Codes
 * Trees
 * Graphs
+
+# [Project Euler](https://projecteuler.net/archives)
+
+TODO
