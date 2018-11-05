@@ -1,4 +1,4 @@
-A selection of programming challenges done in as many languages as I can.
+A selection of programming challenges done in various languages.
 
 # [Advent of Code 2016](http://adventofcode.com)
 
@@ -22,4 +22,4 @@ A series of challenges for functional programming covering:
 
 # [Project Euler](https://projecteuler.net/archives)
 
-TODO
+Mathsy stuff
