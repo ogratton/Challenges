@@ -1,15 +1,14 @@
-#! /usr/bin/env python2.7
 """ https://projecteuler.net/ """
-from __future__ import print_function
 import math
 from math import sqrt, factorial
 from itertools import chain
-from functools import wraps
+from functools import wraps, reduce
 import time
 
 
 def cached(f):
 	cache = dict()
+	
 	@wraps(f)
 	def wrapper(*args):
 		if args in cache:
@@ -36,7 +35,7 @@ def p_1(n=1000):
 	If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9.
 	The sum of these multiples is 23. Find the sum of all the multiples of 3 or 5 below 1000.
 	"""
-	filtered = filter(lambda x: x % 3 == 0 or x % 5 == 0, xrange(n))
+	filtered = filter(lambda x: x % 3 == 0 or x % 5 == 0, range(n))
 	return sum(filtered)
 
 
@@ -70,7 +69,7 @@ def p_3(n=600851475143):
 	What is the largest prime factor of the number 600851475143 ?
 	"""
 	def facs_less_than_sqrt(m):
-		for j in xrange(int(sqrt(m)), 1, -1):
+		for j in range(int(sqrt(m)), 1, -1):
 			if m % j == 0:
 				yield j
 	factors = facs_less_than_sqrt(n)
@@ -93,14 +92,14 @@ def p_4():
 		return list(reversed(s)) == list(s)
 
 	def is_prod_of_two_three_digit_numbers(p):
-		for i in xrange(999, 99, -1):
+		for i in range(999, 99, -1):
 			if p % i == 0:
 				if len(str(p/i)) == 3:
 					print("%d * %d = %d" % (i, p/i, p))
 					return True
 		return False
 
-	for n in xrange(999*999, 100*100, -1):
+	for n in range(999*999, 100*100, -1):
 		if is_palindrome(n):
 			if is_prod_of_two_three_digit_numbers(n):
 				return n
@@ -122,7 +121,7 @@ def p_5(n=20):
 		"""
 		full_range = set(range(2, ub+1))
 		# these numbers are factors of other numbers in the list:
-		pointless = set(chain(*[get_factors_desc(m) for m in xrange(1, n)]))
+		pointless = set(chain(*[get_factors_desc(m) for m in range(1, n)]))
 		reduced = (full_range - pointless)
 
 		primes = set(filter(is_prime, reduced))
@@ -166,8 +165,8 @@ def p_6(n=100):
 	3025 - 385 = 2640.
 	Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
 	"""
-	sum_squares = sum(i ** 2 for i in xrange(1, n+1))
-	square_sum = sum(xrange(1, n+1)) ** 2
+	sum_squares = sum(i ** 2 for i in range(1, n+1))
+	square_sum = sum(range(1, n+1)) ** 2
 
 	return square_sum - sum_squares
 
@@ -210,7 +209,7 @@ def p_8(n=13):
 	sq = sq.replace('\t', '').replace('\n', '')
 
 	# crab along in n-long chunks
-	return max([product(map(int, sq[i:i+n])) for i in xrange(len(sq)-n)])
+	return max([product(map(int, sq[i:i+n])) for i in range(len(sq)-n)])
 
 
 @timeit
@@ -222,7 +221,7 @@ def p_9():
 	There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 	Find the product abc.
 	"""
-	perms = ((m, n) for m in xrange(1, 50) for n in xrange(1, 50) if m > n)
+	perms = ((m, n) for m in range(1, 50) for n in range(1, 50) if m > n)
 	for m, n in perms:
 		a = m**2 - n**2
 		b = 2*m*n
@@ -239,7 +238,7 @@ def p_10(n=2000000):
 	The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 	Find the sum of all the primes below two million.
 	"""
-	return sum((x for x in xrange(2, n) if is_prime(x)))
+	return sum((x for x in range(2, n) if is_prime(x)))
 
 
 @timeit
@@ -256,16 +255,16 @@ def p_11(n=4):
 			return []
 
 	with open("p_11", 'r') as file_:
-		rows = [map(int, row.strip().split(',')) for row in file_.readlines()]
-		v_mask = [(0, j_) for j_ in xrange(n)]
-		h_mask = [(i_, 0) for i_ in xrange(n)]
-		rd_mask = [(i_, j_) for j_ in xrange(n) for i_ in xrange(n) if i_ == j_]
-		ld_mask = [(i_, -j_) for j_ in xrange(n) for i_ in xrange(n) if i_ == j_]
+		rows = [list(map(int, row.strip().split(','))) for row in file_.readlines()]
+		v_mask = [(0, j_) for j_ in range(n)]
+		h_mask = [(i_, 0) for i_ in range(n)]
+		rd_mask = [(i_, j_) for j_ in range(n) for i_ in range(n) if i_ == j_]
+		ld_mask = [(i_, -j_) for j_ in range(n) for i_ in range(n) if i_ == j_]
 		masks = (v_mask, h_mask, rd_mask, ld_mask)
 
 		prods = []
-		for row_i in xrange(len(rows)):
-			for col_j in xrange(len(rows[0])):
+		for row_i in range(len(rows)):
+			for col_j in range(len(rows[0])):
 				for msk in masks:
 					r = apply_mask(rows, msk, row_i, col_j)
 					if r:
@@ -279,7 +278,7 @@ def p_11(n=4):
 def p_12(n=500):
 	""" What is the value of the first triangle number to have over five hundred divisors? """
 	# not mine cos you needed to think about actual maths and stuff
-	for i in xrange(1, 1000000):
+	for i in range(1, 1000000):
 		t_n = (i * (i + 1)) / 2
 		if i % 2 == 0:
 			cnt = num_divisors(i / 2) * num_divisors(i + 1)
@@ -325,7 +324,7 @@ def p_14(n=1000000):
 
 	best_start = 1
 	max_length = 0
-	for i in xrange(n):
+	for i in range(n):
 		cur = collatz(i)
 		if max_length < cur:
 			max_length = cur
@@ -348,7 +347,7 @@ def p_14_recursive(n=1000000):
 
 	best_start = 1
 	max_length = 0
-	for i in xrange(2, n):
+	for i in range(2, n):
 		current = len_collatz(i)
 		if current > max_length:
 			best_start = i
@@ -459,7 +458,7 @@ def p_18():
 
 	tri = load_triangle()
 	while len(tri) > 1:
-		for i in xrange(len(tri[-2])):
+		for i in range(len(tri[-2])):
 			tri[-2][i] = tri[-2][i] + max(tri[-1][i], tri[-1][i+1])
 		del tri[-1]
 
@@ -517,7 +516,7 @@ def p_19():
 
 	# TODO it is overestimating :( answer is 171
 
-	return sum([fri_13_counter(y) for y in xrange(1901, 2001)])
+	return sum([fri_13_counter(y) for y in range(1901, 2001)])
 	# return fri_13_counter(1904)
 
 
@@ -541,7 +540,7 @@ def p_21(n=10000):
 	"""
 	amicables = set()
 
-	for i in xrange(n):
+	for i in range(n):
 		d_n = sum(divisors(i) - {i})
 		if sum(divisors(d_n) - {d_n}) == i:
 			if i != d_n:
@@ -566,7 +565,7 @@ def p_22():
 
 def get_factors_desc(n):
 	""" Does not include 1 ~~~controversial~~~ """
-	for i in xrange(n/2, 1, -1):
+	for i in range(n/2, 1, -1):
 		if n % i == 0:
 			yield i
 
@@ -574,7 +573,7 @@ def get_factors_desc(n):
 @cached
 def divisors(n):
 	divs = set()
-	for i in xrange(1, int(math.ceil(sqrt(n))) + 1):
+	for i in range(1, int(math.ceil(sqrt(n))) + 1):
 		if n % i == 0:
 			divs.add(i)
 			divs.add(n / i)
@@ -584,7 +583,7 @@ def divisors(n):
 @cached
 def num_divisors(n):
 	number_of_factors = 0
-	for i in xrange(1, int(math.ceil(sqrt(n))) + 1):
+	for i in range(1, int(math.ceil(sqrt(n))) + 1):
 		if n % i == 0:
 			number_of_factors += 2
 		if i * i == n:
@@ -604,7 +603,7 @@ def is_prime(n):
 			break
 	return prime
 
-	# return all(n % i for i in xrange(3, int(math.sqrt(n)) + 1, 2))
+	# return all(n % i for i in range(3, int(math.sqrt(n)) + 1, 2))
 
 
 def is_even(n):
@@ -626,4 +625,4 @@ def run(problem, *values):
 if __name__ == "__main__":
 
 	rec = False
-	run(3)
+	run(11)
