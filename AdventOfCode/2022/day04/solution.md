@@ -1,14 +1,26 @@
-# perl
+# Simple logical checks
 
-# part 1
-
-Could just check if `(x0<=y0 && x1>=y1) || (y0<=x0 && y1>=x1)`.
+## perl
 
 ```bash
 perl -ne 'if(/(\d+)\-(\d+),(\d+)\-(\d+)/){ if(($1<=$3 && $2>=$4) || ($3<=$1 && $4>=$2)){ $total += 1 } }; END { print "$total\n" }' input.txt
+
+perl -ne 'if(/(\d+)\-(\d+),(\d+)\-(\d+)/){ if(($3 <= $2 && $1 <= $4)){ $total += 1 } }; END { print "$total\n" }' input.txt
 ```
 
-Or could have more fun with binary masks.
+## awk
+
+Almost a direct translation from the perl solution. I would have done this first, but I didn't know the FS trick:
+
+```bash
+awk -F ",|-" '($1<=$3 && $2>=$4) || ($3<=$1 && $4>=$2) { total++ } END { print total }' input.txt
+
+awk -F ",|-" '($3 <= $2 && $1 <= $4) { total++ } END { print total }' input.txt
+```
+
+# Perl binary masking
+
+Part 1:
 
 ```bash
 perl -ne '
@@ -26,18 +38,16 @@ if(/(\d+)\-(\d+),(\d+)\-(\d+)/){
 END { print "\nanswer: $total\n" }' input.txt
 ```
 
-## part 2
-
-just change the condition to:
+For part 2, just change the condition to:
 
 ```perl
     $bs = $bsx & $bsy;
     $total += index($bs, "1") != -1;
 ```
 
-## visualisation
+## Visualisation
 
-just prints the mask at each stage
+Part 1 again but printing the bitstring each time in green or red:
 
 ```bash
 perl -ne '
@@ -67,14 +77,26 @@ if(/(\d+)\-(\d+),(\d+)\-(\d+)/){
 END { print "\nanswer: $total\n" }' input.txt
 ```
 
-# awk
+# PSQL range functions
 
-would have done this first but I didn't know the FS trick:
+Assuming a table:
 
-```bash
-awk -F ",|-" '($1<=$3 && $2>=$4) || ($3<=$1 && $4>=$2) { total++ } END { print total }' input.txt
+```sql
+create table aoc_day4 (x0 int, x1 int, y0 int, y1 int);
 ```
 
+populated with the input data:
+
 ```bash
-awk -F ",|-" '($3 <= $2 && $1 <= $4) { total++ } END { print total }' input.txt
+cat input.txt | tr '-' ',' | psql -d postgres -c "\copy aoc_day4 from stdin with csv"
+```
+
+Do:
+
+```sql
+select count(*) filter (where is_subrange) as part_1, count(*) filter (where is_overlap) as part_2 from (
+    select (xr @> yr) or (xr <@ yr) as is_subrange, xr && yr as is_overlap from (
+        select int4range(x0, x1, '[]') as xr, int4range(y0, y1, '[]') as yr from aoc_day4
+    ) ranges
+) sub;
 ```
