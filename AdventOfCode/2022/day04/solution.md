@@ -64,5 +64,17 @@ if(/(\d+)\-(\d+),(\d+)\-(\d+)/){
     $bs eq $bsx || $bs eq $bsy ? print GREEN : print RED;
     print "$bs\n", RESET
 };
-END { print "\nanswer: $total\n" }' example
+END { print "\nanswer: $total\n" }' input.txt
+```
+
+# awk
+
+would have done this first but I didn't know the FS trick:
+
+```bash
+awk -F ",|-" '($1<=$3 && $2>=$4) || ($3<=$1 && $4>=$2) { total++ } END { print total }' input.txt
+```
+
+```bash
+awk -F ",|-" '($3 <= $2 && $1 <= $4) { total++ } END { print total }' input.txt
 ```
