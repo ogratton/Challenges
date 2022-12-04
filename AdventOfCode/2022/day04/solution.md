@@ -94,9 +94,7 @@ cat input.txt | tr '-' ',' | psql -d postgres -c "\copy aoc_day4 from stdin with
 Do:
 
 ```sql
-select count(*) filter (where is_subrange) as part_1, count(*) filter (where is_overlap) as part_2 from (
-    select (xr @> yr) or (xr <@ yr) as is_subrange, xr && yr as is_overlap from (
-        select int4range(x0, x1, '[]') as xr, int4range(y0, y1, '[]') as yr from aoc_day4
-    ) ranges
-) sub;
+select count(*) filter (where (xr @> yr) or (xr <@ yr)) as part_1, count(*) filter (where xr && yr) as part_2 from (
+    select int4range(x0, x1, '[]') as xr, int4range(y0, y1, '[]') as yr from aoc_day4
+) ranges;
 ```
