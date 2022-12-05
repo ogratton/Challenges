@@ -24,7 +24,6 @@ Part 1:
 
 ```bash
 perl -ne '
-use Term::ANSIColor qw(:constants);
 if(/(\d+)\-(\d+),(\d+)\-(\d+)/){
     $x0 = $1; $x1 = $2; $y0 = $3; $y1 = $4;
     $min = ($x0, $y0)[$x0 > $y0]; $max = ($x1, $y1)[$x1 < $y1];
