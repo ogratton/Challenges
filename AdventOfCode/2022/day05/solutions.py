@@ -1,3 +1,4 @@
+from itertools import takewhile
 
 def load_stacks(f):
     stacks_raw = list(takewhile(lambda x: bool(x.strip()), f))
