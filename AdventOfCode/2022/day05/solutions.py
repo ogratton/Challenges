@@ -13,10 +13,10 @@ def load_stacks(f):
                 stacks[key].append(box)
     return stacks, list(f)    
 
-
 def part_1(stacks, raw_moves):
     for raw_move in raw_moves:
-        n, i, j = parse_move(raw_move)
+        _move, n, _from, i, _to, j = raw_move.split()
+        n, i, j = int(n), int(i), int(j)
         stacks[j].extend(stacks[i][::-1][:n])
         stacks[i] = stacks[i][:-n]
     return "".join(s[-1] for s in stacks if s)
