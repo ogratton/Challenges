@@ -12,7 +12,7 @@ for i in range(len(string) - n):
     substr = string[i:i+n]
     if len(set(substr)) == n:
         print(i+n)
-    break
+        break
 ```
 
 ## part 2
