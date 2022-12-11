@@ -35,13 +35,14 @@ function abs(v) {v += 0; return v < 0 ? -v : v};
 function do_cycle(){
     cycle += 1;
     if (abs((cycle - offset) - pos) < 2) {
-        rows[cycle] = "##";
+        printf "%s", "##";
     }
     else {
-        rows[cycle] = "  ";
+        printf "%s", "  ";
     };
     if ((cycle) % 40 == 0) {
         offset += 40;
+        print "\n";
     };
 };
 BEGIN { ORS=""; }
@@ -53,13 +54,5 @@ BEGIN { ORS=""; }
 };
 /noop/ { 
     do_cycle();
-}
-END {
-    for (c=1; c<=240; c++) {
-        printf "%s",rows[c]
-        if (c % 40 == 0) {
-            print "\n";
-        }
-    }
 }' input.txt
 ```
