@@ -29,11 +29,7 @@ def get_neighbours(x, y):
     return [(x+i, y+j) for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]]
 
 def value(char):
-    if char == "E":
-        return value("z")
-    if char == "S":
-        return value("a")
-    return ord(char)
+    return {"E": ord("z"), "S": ord("a")}.get(char, ord(char))
 
 def is_accessible(current_char, target_char):
     val_cur = value(current_char)
